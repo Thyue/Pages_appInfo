@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/vue.global.js"></script>
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/fontawesome/fontawesome.css" />
+    <link rel="stylesheet" href="./css/fontawesome/brands.css" />
+    <link rel="stylesheet" href="./css/fontawesome/solid.css" />
+    <link rel="icon" type="image/png" href="./img/icon.png" />
+    <title>軟體資訊</title>
+    <style>
+      p {
+        margin: 0;
+      }
+      .expBullet::after {
+        content: "";
+        width: 1px;
+        height: 100%;
+        display: block;
+        background-color: #979797;
+        margin-left: 4.5px;
+        top: -10px;
+        z-index: 0;
+        position: relative;
+      }
+      .expBullet::before {
+        content: "";
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        text-align: center;
+        display: inline-block;
+        background-color: #a8a8a8;
+        margin-top: 10px;
+        margin-left: 0.5px;
+        z-index: 1;
+      }
+      .expBullet1::before {
+        content: "";
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        text-align: center;
+        display: inline-block;
+        background-color: #a8a8a8;
+        margin-top: 10px;
+        margin-left: 0.5px;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body class="play">
+    <audio id="audio" src="./audio/fontaine.mp3" autoplay loop></audio>
+    <div id="app" class="container">
+      <h1 class="text-center">軟體資訊</h1>
+      <p class="h4 fw-bold mt-3">開發者介紹</p>
+      <div class="card mb-3">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="./img/author.jpg" class="img-fluid rounded-start" alt="author" />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">開發筆名 <i class="fa-solid fa-feather-pointed"></i> 趙德柱</h5>
+              <ul class="card-text">
+                <li>民國84年次出生，雙子座A型，單身。</li>
+                <li>中華民國陸軍，通資電兵科專業，年資{{nowYear - 2014}}年，曾任士兵督導長，地下副排長，打飯班班長。</li>
+                <li>最擅長為長官桌打兩鍋湯，專精技能8字訣：飄凹閃躲么八有我，距離退伍還有{{2040 - nowYear}}年。</li>
+                <li>曾任{{ nowYear -1 }}年誠品書店年度暢銷書讀者。</li>
+                <li>現任YouTube Premium年費會員。</li>
+                <li>目前在玉山銀行設有8位數的帳戶密碼。</li>
+                <li>在SF當過幾年特種兵，擅長狙擊戰。</li>
+                <li>
+                  專注於前端開發，結合後端開發、資料庫規劃與伺服器架設等技能，提供資訊應用服務，如：題庫系統、考勤門禁系統、餐廳系統、民宿房型展示網頁、電商網頁、工作管制系統等等網頁軟體。
+                </li>
+              </ul>
+              <a href="mailto: w06rup3vu06@gmail.com" class="btn btn-primary">聯絡我</a>
+              <p class="card-text"><small class="text-muted">但不一定有空理你</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="h4 fw-bold mt-3">系統開發歷程</p>
+      <div class="row" v-for="(item,index) in developmentHistory">
+        <!-- 陣列長度只有1或者陣列最後一位時 -->
+        <div :class="[developmentHistory.length ===1 || index == developmentHistory.length-1 ? 'col-1 expBullet1':'col-1 expBullet']"></div>
+        <div class="col-11">
+          <p>Version {{item.version}}</p>
+          <p>更新日期：{{item.updateTime}}</p>
+          <p>更新內容：</p>
+          <ol>
+            <li v-for="(content) in item.updateContent">{{content}}。</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          nowYear: new Date().getFullYear(),
+          developmentHistory: [
+            // X.0.0：大改版(7.0.0)
+            // N.X.0：增加新功能(7.2.0)
+            // N.M.X：修正功能Bug(7.2.6)
+            {
+              version: "1.0.0",
+              updateTime: "113年05月25日",
+              updateContent: ["首次新系統上線"],
+            },
+            {
+              version: "1.0.1",
+              updateTime: "113年05月29日",
+              updateContent: ["修正網頁Logo SVG圖片404錯誤"],
+            },
+            {
+              version: "1.1.0",
+              updateTime: "113年05月30日",
+              updateContent: ["新增網頁字體放大", "新增「記住我頁面」紀錄帳號密碼"],
+            },
+            {
+              version: "1.1.1",
+              updateTime: "113年06月10日",
+              updateContent: ["修正重置學習紀錄資料庫，資料格式錯誤", "優化用戶資訊傳輸格式", "修正HTTP錯誤代碼413"],
+            },
+            {
+              version: "2.0.0",
+              updateTime: "113年07月25日",
+              updateContent: ["中秋節限定大改版"],
+            },
+          ],
+        };
+      },
+      created() {},
+      methods: {},
+      mounted() {
+        // 撥放音樂
+        const audio = document.getElementById("audio");
+        let state = 0;
+        document.querySelector(".play").onclick = function () {
+          if (state) {
+            audio.pause();
+            state = 0;
+          } else {
+            audio.play();
+            state = 1;
+          }
+        };
+      },
+      computed: {},
+      watch: {},
+    }).mount("#app");
+  </script>
+</html>
